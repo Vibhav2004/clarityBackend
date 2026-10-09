@@ -84,6 +84,7 @@ public class config {
                                                 "http://localhost:4321 " +
                                                 "http://192.168.1.105:5501"+
                                                 "http://192.168.0.178:5501"+
+                                                "https://clarity-e9p.pages.dev/"+
                                                 "http://192.168.29.171:8081;"
                                 )
                         )
@@ -110,7 +111,8 @@ public class config {
                 "http://192.168.0.178:5501",
                 "http://localhost:5501",
                 "http://192.168.29.171:5501",
-                "https://frontend-rust-iota-qby7aguy8j.vercel.app"
+                "https://frontend-rust-iota-qby7aguy8j.vercel.app",
+                "https://clarity-e9p.pages.dev/"
         ));
 
         // allow ALL methods
