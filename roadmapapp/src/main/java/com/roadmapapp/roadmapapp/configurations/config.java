@@ -63,8 +63,6 @@ public class config {
                                 "/payment/failed",
                                 "/health"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/verify").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/daily-memes").permitAll()
                         // everything else protected
                         .anyRequest().authenticated()
                 )
@@ -112,9 +110,7 @@ public class config {
                 "http://192.168.0.178:5501",
                 "http://localhost:5501",
                 "http://192.168.29.171:5501",
-                "https://frontend-rust-iota-qby7aguy8j.vercel.app",
-                "https://swipenow.swipenowin.workers.dev",
-                "https://swipenow.in"
+                "https://frontend-rust-iota-qby7aguy8j.vercel.app"
         ));
 
         // allow ALL methods

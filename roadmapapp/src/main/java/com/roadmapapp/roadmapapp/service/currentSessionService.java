@@ -16,17 +16,33 @@ public class currentSessionService {
 //    }
 
 
-    public  boolean verifySession(String email, String sessionId) throws Exception {
-        currentSessionInfo session=currentSessionRepo.getByEmail(email  );
-        if(session==null){
-            return false;
-        }
-        if(session.getSessionID().equals(sessionId)&& session.getEmail().equals(email)){
-            return true;
-        }
-        return false;
+//    public  boolean verifySession(String email, String sessionId) throws Exception {
+//        currentSessionInfo session=currentSessionRepo.getByEmail(email  );
+//        if(session==null){
+//            return false;
+//        }
+//        if(session.getSessionID().equals(sessionId)&& session.getEmail().equals(email)){
+//            return true;
+//        }
+//        return false;
+//
+//    }
+public boolean verifySession(String email, String sessionId) {
 
+    if (email == null || email.isBlank()
+            || sessionId == null || sessionId.isBlank()) {
+        return false;
     }
+
+    currentSessionInfo session = currentSessionRepo.getByEmail(email);
+
+    if (session == null) {
+        return false;
+    }
+
+    return sessionId.equals(session.getSessionID())
+            && email.equalsIgnoreCase(session.getEmail());
+}
 
     public void saveSession(currentSessionInfo newSession) {
 
