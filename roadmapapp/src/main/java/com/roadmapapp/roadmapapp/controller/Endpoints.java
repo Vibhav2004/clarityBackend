@@ -725,39 +725,12 @@ public ResponseEntity<?> saveTracker(
     }
 }
 
+    @Value("${razorpay.key.id}")
+    private String key;
+
     @Value("${razorpay.key.secret}")
     private String secret;
 
-//    @PostMapping("/payment/create-order")
-//    public ResponseEntity<?> createOrder(
-//            @RequestBody CreateOrderRequest request)
-//            throws Exception {
-//     System.out.println(request.getEmail());
-//        System.out.println(request.getSessionID());
-//        long amount;
-//      boolean flag=currentSessionService.verifySession(request.getEmail(), request.getSessionID());
-//      if(!flag){
-//          throw new Exception("Session is Invalid");
-//      }
-//        if(request.getPlan().equals("PRO")){
-//            amount = 9900;
-//        } else {
-//            amount = 19900;
-//        }
-//
-//        JSONObject orderRequest = new JSONObject();
-//
-//        orderRequest.put("amount", amount);
-//        orderRequest.put("currency", "INR");
-//        orderRequest.put("receipt",
-//                "receipt_" + System.currentTimeMillis());
-//
-//
-//        Order order =
-//                razorpayClient.orders.create(orderRequest);
-//
-//        return ResponseEntity.ok(order.toString());
-//    }
 
     @PostMapping("/payment/create-order")
     public ResponseEntity<?> createOrder(
@@ -918,53 +891,7 @@ public ResponseEntity<?> saveTracker(
                 order.toString()
         );
     }
-//
-//    @PostMapping("/payment/verify")
-//    public ResponseEntity<?> verifyPayment(
-//            @RequestBody PaymentVerificationRequest request)
-//            throws Exception {
-//    boolean flag=currentSessionService.verifySession(request.getEmail(), request.getSessionID());
-//    if(!flag){
-//        throw new Exception("Session is Invalid");
-//    }
-//        JSONObject options = new JSONObject();
-//
-//        options.put(
-//                "razorpay_order_id",
-//                request.getRazorpayOrderId());
-//
-//        options.put(
-//                "razorpay_payment_id",
-//                request.getRazorpayPaymentId());
-//
-//        options.put(
-//                "razorpay_signature",
-//                request.getRazorpaySignature());
-//
-//
-//
-//        boolean verified =
-//                Utils.verifyPaymentSignature(
-//                        options,
-//                        secret);
-//
-//        if(!verified){
-//            return ResponseEntity.badRequest()
-//                    .body("Payment verification failed");
-//        }
-//
-//
-//        User user =userService.findUser(request.getEmail());
-//
-//
-//        updateSubscription(user,request,
-//                request.getPlan());
-//
-//        saveTransaction(user,
-//                request);
-//
-//        return ResponseEntity.ok("Payment Success");
-//    }
+
 
     @PostMapping("/payment/verify")
     public ResponseEntity<?> verifyPayment(
