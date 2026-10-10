@@ -457,7 +457,7 @@ public class RateLimitConfig {
             // Authentication
             new EndpointRule(
                     "POST", "/Register-User",
-                    new RateLimitRule(5, 3600)
+                    new RateLimitRule(50, 3600)
             ),
             new EndpointRule(
                     "POST", "/Login-User",

@@ -1,10 +1,8 @@
 package com.roadmapapp.roadmapapp.controller;
 import java.time.LocalDateTime;
 
-import aj.org.objectweb.asm.commons.JSRInlinerAdapter;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
-import com.razorpay.RazorpayException;
 import com.razorpay.Utils;
 import com.roadmapapp.roadmapapp.DTO.*;
 import com.roadmapapp.roadmapapp.configurations.*;
@@ -22,8 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.ChronoLocalDateTime;
+
+import com.roadmapapp.roadmapapp.service.RecaptchaService;
+
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -59,41 +58,154 @@ public class Endpoints {
     private PaymentOrderRepo paymentOrderRepo;
 
 
+    @Autowired
+    private RecaptchaService recaptchaService;
+
 
     @GetMapping("/health")
     public ResponseEntity<String> health() {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/Register-User")
-    public ResponseEntity<User> registerUser(@RequestBody User user) throws Exception {
-        SecurityConfig.validateRegisterInput(
-                user.getUserName(),
-                user.getEmail(),
-                user.getPassword()
-        );
-//        if(user.getPlan()=="PRO"||user.getPlan()=="PREMIUM"){
+//    @PostMapping("/Register-User")
+//    public ResponseEntity<User> registerUser(@RequestBody User user) throws Exception {
+//        SecurityConfig.validateRegisterInput(
+//                user.getUserName(),
+//                user.getEmail(),
+//                user.getPassword()
+//        );
+////        if(user.getPlan()=="PRO"||user.getPlan()=="PREMIUM"){
+////            throw new Exception("Don't Try To Sneak Peak Buy The Plan Dude");
+////        }
+//        if ("PRO".equalsIgnoreCase(user.getPlan())
+//                || "PREMIUM".equalsIgnoreCase(user.getPlan())) {
 //            throw new Exception("Don't Try To Sneak Peak Buy The Plan Dude");
 //        }
-        if ("PRO".equalsIgnoreCase(user.getPlan())
-                || "PREMIUM".equalsIgnoreCase(user.getPlan())) {
-            throw new Exception("Don't Try To Sneak Peak Buy The Plan Dude");
-        }
-        User savedUser = userService.registerUser(user);
-        return ResponseEntity.ok(savedUser);
+//        User savedUser = userService.registerUser(user);
+//        return ResponseEntity.ok(savedUser);
+//    }
+//
+//    @PostMapping("/Login-User")
+//    public ResponseEntity<SessionIDUser> loginUser(@RequestBody User user) {
+//        // 1. Validate frontend input
+//        SecurityConfig.validateLoginInput(
+//                user.getEmail(),
+//                user.getPassword()
+//        );
+//        SessionIDUser newSession= userService.loginUser(user);
+//        return ResponseEntity.ok(newSession);
+//    }
+//
+//@PostMapping("/Register-User")
+//public ResponseEntity<?> registerUser(@RequestBody User user) throws Exception {
+//
+//    // 1. Verify reCAPTCHA before registration.
+//    if (!recaptchaService.verify(
+//            user.getRecaptchaToken(),
+//            "register"
+//    )) {
+//        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+//                .body("CAPTCHA_VERIFICATION_FAILED");
+//    }
+//
+//    // 2. Validate registration input.
+//    SecurityConfig.validateRegisterInput(
+//            user.getUserName(),
+//            user.getEmail(),
+//            user.getPassword()
+//    );
+//
+//    // 3. Do not allow users to select paid plans during registration.
+//    if ("PRO".equalsIgnoreCase(user.getPlan())
+//            || "PREMIUM".equalsIgnoreCase(user.getPlan())) {
+//        throw new Exception(
+//                "Don't Try To Sneak Peak Buy The Plan Dude"
+//        );
+//    }
+//
+//    // 4. Register only after all checks pass.
+//    User savedUser = userService.registerUser(user);
+//
+//    return ResponseEntity.ok(savedUser);
+//}
+//
+//
+//    @PostMapping("/Login-User")
+//    public ResponseEntity<?> loginUser(@RequestBody User user) {
+//
+//        // 1. Verify reCAPTCHA before authenticating.
+//        if (!recaptchaService.verify(
+//                user.getRecaptchaToken(),
+//                "login"
+//        )) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+//                    .body("CAPTCHA_VERIFICATION_FAILED");
+//        }
+//
+//        // 2. Validate login input.
+//        SecurityConfig.validateLoginInput(
+//                user.getEmail(),
+//                user.getPassword()
+//        );
+//
+//        // 3. Preserve your existing authentication and session logic.
+//        SessionIDUser newSession = userService.loginUser(user);
+//
+//        return ResponseEntity.ok(newSession);
+//    }
+@PostMapping("/Register-User")
+public ResponseEntity<?> registerUser(@RequestBody User user)
+        throws Exception {
+
+// 1. Verify the v2 checkbox before registration.
+    if (!recaptchaService.verify(user.getRecaptchaToken())) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body("CAPTCHA_VERIFICATION_FAILED");
     }
 
+// 2. Validate registration input.
+    SecurityConfig.validateRegisterInput(
+            user.getUserName(),
+            user.getEmail(),
+            user.getPassword()
+    );
+
+// 3. Prevent self-assignment of paid plans.
+    if ("PRO".equalsIgnoreCase(user.getPlan())
+            || "PREMIUM".equalsIgnoreCase(user.getPlan())) {
+        throw new Exception(
+                "Don't Try To Sneak Peak Buy The Plan Dude"
+        );
+    }
+
+// 4. Register only after verification and validation.
+    User savedUser = userService.registerUser(user);
+
+    return ResponseEntity.ok(savedUser);
+
+}
+
     @PostMapping("/Login-User")
-    public ResponseEntity<SessionIDUser> loginUser(@RequestBody User user) {
-        // 1. Validate frontend input
+    public ResponseEntity<?> loginUser(@RequestBody User user) {
+
+// 1. Verify the v2 checkbox before authentication.
+        if (!recaptchaService.verify(user.getRecaptchaToken())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("CAPTCHA_VERIFICATION_FAILED");
+        }
+
+// 2. Validate login input.
         SecurityConfig.validateLoginInput(
                 user.getEmail(),
                 user.getPassword()
         );
-        SessionIDUser newSession= userService.loginUser(user);
-        return ResponseEntity.ok(newSession);
-    }
 
+// 3. Preserve existing authentication and session logic.
+        SessionIDUser newSession = userService.loginUser(user);
+
+        return ResponseEntity.ok(newSession);
+
+    }
     @PostMapping("/LogOut-User")
     public ResponseEntity<?> LogoutUser(@RequestBody currentSessionInfo currentsession ) {
 

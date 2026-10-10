@@ -1,5 +1,6 @@
 package com.roadmapapp.roadmapapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,5 +44,10 @@ public class User {
     private Boolean autoRenew = false;
     private Boolean isLoggedIn=false;
 
+
+    // CAPTCHA token: accepted in requests, never persisted or serialized.
+    @Transient
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String recaptchaToken;
 
 }
