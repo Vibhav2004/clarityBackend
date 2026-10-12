@@ -177,7 +177,7 @@ public final class GeneratedRoadmapFinal {
             String difficulty,
             String email
     ) {
-        System.out.println("VALIDATOR RUNNING");
+
         // Category
         validateCategory(category);
 

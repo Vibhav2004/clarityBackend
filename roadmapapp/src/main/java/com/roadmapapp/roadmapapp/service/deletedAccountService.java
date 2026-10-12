@@ -17,7 +17,7 @@ public class deletedAccountService {
     public void logDeletedUser(String email) {
         deletedUser du = new deletedUser();
         User user = userRepo.getByEmail(email);
-        System.out.println(user);
+
 //        du.setId(user.getId());
         du.setAccountDeleted(true);
         du.setEmail(user.getEmail());

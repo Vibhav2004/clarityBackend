@@ -35,11 +35,8 @@ public class TrackerService {
     public String saveTracker(
             Map<String, Object> trackerData
     ) throws JsonProcessingException {
-        System.out.println("========== TRACKER DATA ==========");
-        trackerData.forEach((key, value) ->
-                System.out.println(key + " = " + value)
-        );
-        System.out.println("==================================");
+
+
         // =========================================================
         // 1. Validate required tracker fields
         // =========================================================
@@ -412,13 +409,7 @@ public class TrackerService {
                 throw new SecurityException("Authenticated email is required.");
             }
 
-            System.out.println("========== UPDATE TRACKER ==========");
-            System.out.println("Tracker ID = " + tracker.getId());
-            System.out.println("Authenticated Email = " + authenticatedEmail);
-            System.out.println("Completed Steps = " + tracker.getCompletedSteps());
-            System.out.println("Total Steps = " + tracker.getTotalSteps());
-            System.out.println("Status = " + tracker.getStatus());
-            System.out.println("====================================");
+
 
             // 1. Find tracker
             Tracker existingTracker =

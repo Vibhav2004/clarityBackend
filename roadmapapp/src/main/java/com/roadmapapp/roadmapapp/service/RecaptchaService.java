@@ -94,12 +94,7 @@ public class RecaptchaService {
                     hostname.toLowerCase(Locale.ROOT)
             );
 
-            System.out.println("reCAPTCHA v2 success: " + success);
-            System.out.println("reCAPTCHA hostname: " + hostname);
-            System.out.println(
-                    "reCAPTCHA error codes: "
-                            + result.path("error-codes")
-            );
+
 
             return success && hostnameAllowed;
 

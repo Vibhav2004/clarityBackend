@@ -87,8 +87,7 @@ public boolean sendOtp(String email) {
 
         otpRepo.save(otpEntity);
 
-        System.out.println("OTP generated: " + otp);
-        System.out.println("OTP saved for: " + email);
+
 
         SimpleMailMessage message =
                 new SimpleMailMessage();
@@ -109,21 +108,17 @@ public boolean sendOtp(String email) {
                         "please ignore this email."
         );
 
-        System.out.println("Sending OTP email...");
+
 
         mailSender.send(message);
 
-        System.out.println(
-                "OTP email sent successfully to: " + email
-        );
+
 
         return true;
 
     } catch (Exception e) {
 
-        System.out.println(
-                "OTP email failed for: " + email
-        );
+
 
         e.printStackTrace();
 

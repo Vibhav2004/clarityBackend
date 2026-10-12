@@ -141,7 +141,7 @@ private currentSessionService currentSessionService;
     }
   public void setLoggedInfo(User existingUser) {
         User user=userRepo.getByEmail(existingUser.getEmail());
-        System.out.println(user);
+
         if(user==null){
             throw new RuntimeException("User Not Found");
         }

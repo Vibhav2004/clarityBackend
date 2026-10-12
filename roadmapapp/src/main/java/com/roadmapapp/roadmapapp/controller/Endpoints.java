@@ -216,8 +216,7 @@ public ResponseEntity<?> registerUser(@RequestBody User user)
 
         @PostMapping("/Static_Roadmaps/Category")
     public ResponseEntity<?> category(@RequestBody SessionIDUser session) throws Exception {
-            System.out.println("Email: " + session.getEmail());
-            System.out.println("SessionID: " + session.getSessionID());
+
 
 
 
@@ -234,8 +233,7 @@ public ResponseEntity<?> registerUser(@RequestBody User user)
     @PostMapping("/Static_Roadmaps/Category/{category}")
     public ResponseEntity<?> getNamesByCategory(
             @PathVariable String category,@RequestBody SessionIDUser session) throws Exception {
-        System.out.println("Email: " + session.getEmail());
-        System.out.println("SessionID: " + session.getSessionID());
+
         boolean flag=currentSessionService.verifySession(session.getEmail(),session.getSessionID());
         if(flag){
             return ResponseEntity.ok(
@@ -259,8 +257,7 @@ public ResponseEntity<?> registerUser(@RequestBody User user)
 
         String sessionId = body.get("sessionID");
 
-        System.out.println("Email: " + email);
-        System.out.println("SessionID: " + sessionId);
+
         boolean flag=currentSessionService.verifySession(email,sessionId);
         if(!flag){
             throw new Exception("Session is Wrong");
@@ -371,8 +368,7 @@ public ResponseEntity<?> saveTrackers(
 
     String email = request.getEmail();
     String sessionId = request.getSessionID();
-System.out.println(email);
-    System.out.println(sessionId);
+
     // 1. Verify session FIRST
     boolean flag = currentSessionService.verifySession(
             email,
@@ -447,8 +443,7 @@ System.out.println(email);
 
         String sessionId =
                 body.get("sessionID").toString();
-    System.out.println(email);
-        System.out.println(sessionId);
+
     boolean flag=currentSessionService.verifySession(email,sessionId);
     if(!flag){
         throw new Exception("Session is Invalid");
@@ -654,9 +649,7 @@ public ResponseEntity<?> saveTracker(
                 tracker.getSessionID()
         );
 
-        System.out.println("Email = " + tracker.getEmail());
-        System.out.println("Session ID = " + tracker.getSessionID());
-        System.out.println("Session verified = " + flag);
+
 
         if (!flag) {
             return ResponseEntity.status(401)
@@ -678,14 +671,7 @@ public ResponseEntity<?> saveTracker(
         }
 
         // 4. Debug tracker data
-        System.out.println("========== TRACKER DATA ==========");
-        System.out.println("ID = " + trackerData.getId());
-        System.out.println("User Email = " + trackerData.getUserEmail());
-        System.out.println("Roadmap Name = " + trackerData.getRoadmapName());
-        System.out.println("Completed Steps = " + trackerData.getCompletedSteps());
-        System.out.println("Total Steps = " + trackerData.getTotalSteps());
-        System.out.println("Status = " + trackerData.getStatus());
-        System.out.println("==================================");
+
 
         // 5. Update tracker
         trackerService.updateTracker(
@@ -1604,9 +1590,7 @@ private void saveTransaction(
         String sessionId =
                 body.get("sessionID").toString();
 
-        System.out.println(email);
-        System.out.println(password);
-        System.out.println(sessionId);
+
 
         boolean flag =
                 currentSessionService.verifySession(
