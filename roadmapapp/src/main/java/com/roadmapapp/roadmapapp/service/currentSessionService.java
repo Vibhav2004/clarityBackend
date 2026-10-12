@@ -54,7 +54,14 @@ public boolean verifySession(String email, String sessionId) {
 
         currentSessionRepo.save(newSession);
     }
+public void endSessionForDeletedAccount(String email) {
+    currentSessionInfo session=currentSessionRepo.getByEmail(email);
+    if(session==null) {
+        throw new RuntimeException("Session doesnt exist exists");
+    }
 
+    currentSessionRepo.delete(session);
+}
     public void endSession(currentSessionInfo currentSession) {
         currentSessionInfo session=currentSessionRepo.getByEmail(currentSession.getEmail());
         if(session==null) {

@@ -168,7 +168,7 @@ private currentSessionService currentSessionService;
         if(user==null) {
             return false;
         }
-
+   currentSessionService.endSessionForDeletedAccount(email);
         userRepo.delete(user);
 
         return true;
