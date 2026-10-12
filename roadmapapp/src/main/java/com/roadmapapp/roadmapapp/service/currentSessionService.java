@@ -67,9 +67,9 @@ public void endSessionForDeletedAccount(String email) {
         if(session==null) {
             throw new RuntimeException("Session doesnt exist exists");
         }
-        if(!currentSession.getSessionID().equals(session.getSessionID() ) && !currentSession.getEmail().equals(session.getEmail()) ) {
-            throw new RuntimeException("Current Session ID and Email doesnt match");
-        }
+//        if(!currentSession.getSessionID().equals(session.getSessionID() ) && !currentSession.getEmail().equals(session.getEmail()) ) {
+//            throw new RuntimeException("Current Session ID and Email doesnt match");
+//        }
         currentSessionRepo.delete(session);
     }
 }
