@@ -31,211 +31,6 @@ public class TrackerService {
     private UserRepo userRepo;
 
 
-//    public String saveTracker(
-//            Map<String, Object> trackerData
-//    ) throws JsonProcessingException {
-//
-//        String userEmail =
-//                trackerData.get("UserEmail")
-//                        .toString();
-//
-//        String roadmapName =
-//                trackerData.get("RoadmapName")
-//                        .toString();
-//
-//        ObjectMapper objectMapper = new ObjectMapper();
-//
-//        String jsonData =
-//                objectMapper.writeValueAsString(
-//                        trackerData.get("jsonData")
-//                );
-//        System.out.println("jsonData Vibhav: " + jsonData);
-//
-//        boolean exists =
-//                trackerRepository
-//                        .existsByRoadmapNameAndUserEmail(
-//                                roadmapName,
-//                                userEmail
-//                        );
-//
-//        if (exists) {
-//            return "TRACKER_ALREADY_EXISTS";
-//        }
-//        System.out.println("JSON DATA:");
-//        System.out.println(trackerData.get("jsonData"));
-//        System.out.println("TYPE: " + trackerData.get("jsonData").getClass());
-//        Long completedSteps =
-//                trackerData.get("completedSteps") == null
-//                        ? 0L
-//                        : Long.parseLong(
-//                        trackerData.get("completedSteps")
-//                                .toString()
-//                );
-//
-//        Long totalSteps =
-//                trackerData.get("totalSteps") == null
-//                        ? 0L
-//                        : Long.parseLong(
-//                        trackerData.get("totalSteps")
-//                                .toString()
-//                );
-//
-//        Long completedPercentage =
-//                trackerData.get("completedpercentage") == null
-//                        ? 0L
-//                        : Long.parseLong(
-//                        trackerData.get("completedpercentage")
-//                                .toString()
-//                );
-//
-//        Tracker tracker =
-//                Tracker.builder()
-//                        .username(
-//                                trackerData.get("Username")
-//                                        .toString()
-//                        )
-//                        .userEmail(userEmail)
-//                        .roadmapName(roadmapName)
-//                        .type(
-//                                trackerData.get("type")
-//                                        .toString()
-//                        )
-//                        .jsonData(jsonData)
-//                        .status(
-//                                trackerData.get("status")
-//                                        .toString()
-//                        )
-//                        .completedSteps(
-//                                completedSteps
-//                        )
-//                        .totalSteps(
-//                                totalSteps
-//                        )
-//                        .completedpercentage(
-//                                completedPercentage
-//                        )
-//                        .createdAt(
-//                                LocalDateTime.now()
-//                        )
-//                        .updatedAt(
-//                                LocalDateTime.now()
-//                        )
-//                        .build();
-//
-//        trackerRepository.save(tracker);
-//
-//        return "TRACKER_SAVED";
-//    }
-//public String saveTracker(
-//        Map<String, Object> trackerData
-//) throws JsonProcessingException {
-//
-//    String userEmail =
-//            trackerData.get("UserEmail")
-//                    .toString();
-//
-//    String roadmapName =
-//            trackerData.get("RoadmapName")
-//                    .toString();
-//
-//    User user =
-//            (User) userRepo.findByEmail(userEmail)
-//                    .orElseThrow(() ->
-//                            new RuntimeException(
-//                                    "User not found"
-//                            ));
-//
-//    ObjectMapper objectMapper =
-//            new ObjectMapper();
-//
-//    String jsonData =
-//            objectMapper.writeValueAsString(
-//                    trackerData.get("jsonData")
-//            );
-//
-//    boolean exists =
-//            trackerRepository
-//                    .existsByRoadmapNameAndUserEmail(
-//                            roadmapName,
-//                            userEmail
-//                    );
-//
-//    if (exists) {
-//        return "TRACKER_ALREADY_EXISTS";
-//    }
-//
-//    // =========================
-//    // TRACKER LIMIT = 1
-//    // =========================
-//    if (user.getTrackers() >= user.getTrackerLimit()) {
-//        return "TRACKER_LIMIT_EXCEEDED";
-//    }
-//
-//    Long completedSteps =
-//            trackerData.get("completedSteps") == null
-//                    ? 0L
-//                    : Long.parseLong(
-//                    trackerData.get("completedSteps")
-//                            .toString()
-//            );
-//
-//    Long totalSteps =
-//            trackerData.get("totalSteps") == null
-//                    ? 0L
-//                    : Long.parseLong(
-//                    trackerData.get("totalSteps")
-//                            .toString()
-//            );
-//
-//    Long completedPercentage =
-//            trackerData.get("completedpercentage") == null
-//                    ? 0L
-//                    : Long.parseLong(
-//                    trackerData.get("completedpercentage")
-//                            .toString()
-//            );
-//
-//    Tracker tracker =
-//            Tracker.builder()
-//                    .username(
-//                            trackerData.get("Username")
-//                                    .toString()
-//                    )
-//                    .userEmail(userEmail)
-//                    .roadmapName(roadmapName)
-//                    .type(
-//                            trackerData.get("type")
-//                                    .toString()
-//                    )
-//                    .jsonData(jsonData)
-//                    .status(
-//                            trackerData.get("status")
-//                                    .toString()
-//                    )
-//                    .completedSteps(completedSteps)
-//                    .totalSteps(totalSteps)
-//                    .completedpercentage(
-//                            completedPercentage
-//                    )
-//                    .createdAt(
-//                            LocalDateTime.now()
-//                    )
-//                    .updatedAt(
-//                            LocalDateTime.now()
-//                    )
-//                    .build();
-//
-//    trackerRepository.save(tracker);
-//
-//    // Increment after successful save
-//    user.setTrackers(
-//            user.getTrackers() + 1
-//    );
-//
-//    userRepo.save(user);
-//
-//    return "TRACKER_SAVED";
-//}
 
     public String saveTracker(
             Map<String, Object> trackerData
@@ -670,15 +465,24 @@ public class TrackerService {
             // 5. Save tracker
             trackerRepository.save(existingTracker);
 
-            // 6. Update user's milestone totals
-            user.setCompletedMileStones(
-                    tracker.getCompletedSteps()
-            );
 
-            user.setTotalMileStones(
-                    tracker.getTotalSteps()
-            );
+            // 6. Recalculate user's milestone totals across ALL trackers
+            List<Tracker> userTrackers =
+                    trackerRepository.findByUserEmailIgnoreCase(authenticatedEmail);
+
+            long totalMilestones = userTrackers.stream()
+                    .mapToInt(t -> Math.toIntExact(tracker.getTotalSteps() == null ? 0 : t.getTotalSteps()))
+                    .sum();
+
+            long completedMilestones = userTrackers.stream()
+                    .mapToInt(t -> Math.toIntExact(tracker.getCompletedSteps() == null ? 0 : t.getCompletedSteps()))
+                    .sum();
+
+            user.setCompletedMileStones(completedMilestones);
+            user.setTotalMileStones(totalMilestones);
 
             userRepo.save(user);
+
+
         }
     }
