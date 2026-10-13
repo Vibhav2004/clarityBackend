@@ -18,54 +18,7 @@ public class OtpService {
     @Autowired
     private JavaMailSender mailSender;
 
-//    public boolean sendOtp(String email) {
-//
-//        try {
-//
-//            String otp =
-//                    String.valueOf(
-//                            100000 +
-//                                    new Random().nextInt(900000)
-//                    );
-//
-//            OtpVerification otpEntity =
-//                    new OtpVerification();
-//
-//            otpEntity.setEmail(email);
-//            otpEntity.setOtp(otp);
-//            otpEntity.setVerified(false);
-//
-//            otpEntity.setExpiryTime(
-//                    LocalDateTime.now()
-//                            .plusMinutes(5)
-//            );
-//
-//            otpRepo.save(otpEntity);
-//
-//            SimpleMailMessage message =
-//                    new SimpleMailMessage();
-//
-//            message.setTo(email);
-//            message.setSubject(
-//                    "Email Verification OTP"
-//            );
-//
-//            message.setText(
-//                    "Your OTP is: " + otp +
-//                            "\nValid for 5 minutes."
-//            );
-//
-//            mailSender.send(message);
-//              System.out.println("OTP Sent to "+email);
-//            return true;
-//
-//        } catch (Exception e) {
-//
-//            e.printStackTrace();
-//            System.out.println("OTP not Sent to "+email);
-//            return false;
-//        }
-//    }
+
 public boolean sendOtp(String email) {
 
     try {

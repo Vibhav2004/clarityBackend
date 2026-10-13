@@ -67,92 +67,7 @@ public class Endpoints {
         return ResponseEntity.ok("OK");
     }
 
-//    @PostMapping("/Register-User")
-//    public ResponseEntity<User> registerUser(@RequestBody User user) throws Exception {
-//        SecurityConfig.validateRegisterInput(
-//                user.getUserName(),
-//                user.getEmail(),
-//                user.getPassword()
-//        );
-////        if(user.getPlan()=="PRO"||user.getPlan()=="PREMIUM"){
-////            throw new Exception("Don't Try To Sneak Peak Buy The Plan Dude");
-////        }
-//        if ("PRO".equalsIgnoreCase(user.getPlan())
-//                || "PREMIUM".equalsIgnoreCase(user.getPlan())) {
-//            throw new Exception("Don't Try To Sneak Peak Buy The Plan Dude");
-//        }
-//        User savedUser = userService.registerUser(user);
-//        return ResponseEntity.ok(savedUser);
-//    }
-//
-//    @PostMapping("/Login-User")
-//    public ResponseEntity<SessionIDUser> loginUser(@RequestBody User user) {
-//        // 1. Validate frontend input
-//        SecurityConfig.validateLoginInput(
-//                user.getEmail(),
-//                user.getPassword()
-//        );
-//        SessionIDUser newSession= userService.loginUser(user);
-//        return ResponseEntity.ok(newSession);
-//    }
-//
-//@PostMapping("/Register-User")
-//public ResponseEntity<?> registerUser(@RequestBody User user) throws Exception {
-//
-//    // 1. Verify reCAPTCHA before registration.
-//    if (!recaptchaService.verify(
-//            user.getRecaptchaToken(),
-//            "register"
-//    )) {
-//        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-//                .body("CAPTCHA_VERIFICATION_FAILED");
-//    }
-//
-//    // 2. Validate registration input.
-//    SecurityConfig.validateRegisterInput(
-//            user.getUserName(),
-//            user.getEmail(),
-//            user.getPassword()
-//    );
-//
-//    // 3. Do not allow users to select paid plans during registration.
-//    if ("PRO".equalsIgnoreCase(user.getPlan())
-//            || "PREMIUM".equalsIgnoreCase(user.getPlan())) {
-//        throw new Exception(
-//                "Don't Try To Sneak Peak Buy The Plan Dude"
-//        );
-//    }
-//
-//    // 4. Register only after all checks pass.
-//    User savedUser = userService.registerUser(user);
-//
-//    return ResponseEntity.ok(savedUser);
-//}
-//
-//
-//    @PostMapping("/Login-User")
-//    public ResponseEntity<?> loginUser(@RequestBody User user) {
-//
-//        // 1. Verify reCAPTCHA before authenticating.
-//        if (!recaptchaService.verify(
-//                user.getRecaptchaToken(),
-//                "login"
-//        )) {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-//                    .body("CAPTCHA_VERIFICATION_FAILED");
-//        }
-//
-//        // 2. Validate login input.
-//        SecurityConfig.validateLoginInput(
-//                user.getEmail(),
-//                user.getPassword()
-//        );
-//
-//        // 3. Preserve your existing authentication and session logic.
-//        SessionIDUser newSession = userService.loginUser(user);
-//
-//        return ResponseEntity.ok(newSession);
-//    }
+
 @PostMapping("/Register-User")
 public ResponseEntity<?> registerUser(@RequestBody User user)
         throws Exception {
@@ -241,7 +156,7 @@ public ResponseEntity<?> registerUser(@RequestBody User user)
         }
         return ResponseEntity.status(401)
                 .body("Not Authorized");
-//       // GenerateRoadmapInputValidator.validateCategory(category);
+
 
 
     }
@@ -317,9 +232,7 @@ public ResponseEntity<User> getProfile(
     public ResponseEntity<?> saveRoadmap(
             @RequestBody Map<String, Object> roadmap
     ) {
-//        CustomroadmapValidation.validateCustomRoadmap(
-//                roadmap
-//        );
+
            User user=userService.findUser((String) roadmap.get("userEmail"));
 
         // Premium only feature
@@ -397,15 +310,14 @@ public ResponseEntity<?> saveTrackers(
     }
 
     // 3. Convert Tracker object -> Map
-//    ObjectMapper objectMapper = new ObjectMapper();
+
     Map<String, Object> tracker =
             objectMapper.convertValue(
                     trackerData,
                     new TypeReference<Map<String, Object>>() {}
             );
 
-//    // 4. Validate tracker data
-//    CustomTrackerValidation.validateTracker(tracker);
+
 
     // 5. Save ONLY after validation + authorization
     String result = trackerService.saveTracker(tracker);
@@ -457,7 +369,7 @@ public ResponseEntity<?> saveTrackers(
     public ResponseEntity<?> saveCustomTracker(
             @RequestBody Map<String, Object> tracker
     ) {
-        //CustomTrackerValidation.validateTracker(tracker);
+
         User user=userService.findUser((String) tracker.get("userEmail"));
         // Premium only feature
         if(!"PREMIUM".equalsIgnoreCase(user.getPlan())){
@@ -534,7 +446,7 @@ public ResponseEntity<?> saveTrackers(
     public ResponseEntity<?> deleteTrackers(
             @RequestBody DeleteTrackerRequest request
     ) {
-//        EmailInputValidator.validateEmail(email);
+
         try {
             if (request.getSessionID() == null ||
                     request.getSessionID().isBlank()) {
@@ -566,50 +478,7 @@ if(!flag) {
     }
 
 
-//    @PostMapping("/save_tracker")
-//    public ResponseEntity<?> saveTracker(
-//            @RequestBody TrackerRequest tracker
-//    ) throws Exception {
-//boolean flag=currentSessionService.verifySession(tracker.getEmail(),tracker.getSessionId());
-//if(!flag){
-//    throw new Exception("session not found");
-//}
-//
-//       try {
-//// 2. Get tracker data
-//           Tracker trackerData = tracker.getTrackerData();
-//
-//           if (trackerData == null) {
-//               return ResponseEntity
-//                       .badRequest()
-//                       .body(Map.of(
-//                               "message",
-//                               "Tracker data is required."
-//                       ));
-//           }
-//
-//           // 3. Convert Tracker object -> Map
-////    ObjectMapper objectMapper = new ObjectMapper();
-//           Map<String, Object> trackerss =
-//                   objectMapper.convertValue(
-//                           trackerData,
-//                           new TypeReference<Map<String, Object>>() {}
-//                   );
-//               trackerService.updateTracker(tracker.getTrackerData());
-//
-//               return ResponseEntity.ok(
-//                       "Tracker saved successfully"
-//               );
-//
-//           } catch (Exception e) {
-//
-//               e.printStackTrace();
-//
-//               return ResponseEntity
-//                       .badRequest()
-//                       .body("Failed to save tracker");
-//           }
-//       }
+
 
 @PostMapping("/save_tracker")
 public ResponseEntity<?> saveTracker(
@@ -1154,58 +1023,7 @@ public ResponseEntity<?> saveTracker(
                 "FAILED status updated"
         );
     }
-//
-//    private void updateSubscription(
-//            User user,
-//            PaymentVerificationRequest request,
-//            String plan){
-//
-//        LocalDateTime now =
-//                LocalDateTime.now();
-//
-//        LocalDateTime expiry;
-//
-//        if(user.getPlanExpiryDate()!=null &&
-//                user.getPlanExpiryDate()
-//                        .isAfter(now)){
-//
-//            expiry =
-//                    user.getPlanExpiryDate()
-//                            .plusDays(30);
-//
-//        }else{
-//
-//            expiry =
-//                    now.plusDays(30);
-//        }
-//
-//        user.setSubscriptionActive(true);
-//
-//        user.setPlanStartDate(now);
-//
-//        user.setPlanExpiryDate(expiry);
-//        user.setLastTransactionId(request.getRazorpayPaymentId());
-//
-//        if(plan.equals("PRO")){
-//
-//            user.setPlan("PRO");
-//
-//            user.setRoadmapLimit(15L);
-//
-//            user.setTrackerLimit(3L);
-//
-//        }else{
-//
-//            user.setPlan("PREMIUM");
-//
-//            user.setRoadmapLimit(30L);
-//
-//            user.setTrackerLimit(30L);
-//        }
-//
-//
-//        userRepo.save(user);
-//    }
+
 private void updateSubscription(
         User user,
         PaymentVerificationRequest request,
@@ -1285,78 +1103,7 @@ private void updateSubscription(
 
     userRepo.save(user);
 }
-//
-//    private void saveTransaction(
-//            User user,
-//            PaymentVerificationRequest request){
-//
-//        transaction tx =
-//                new transaction();
-//
-//        tx.setUserName(
-//                user.getUserName());
-//
-//        tx.setEmail(
-//                user.getEmail());
-//
-//        tx.setTransactionId(
-//                UUID.randomUUID().toString());
-//
-//        tx.setRazorpayOrderId(
-//                request.getRazorpayOrderId());
-//
-//        tx.setRazorpayPaymentId(
-//                request.getRazorpayPaymentId());
-//        tx.setActiveSubscription(true);
-//        tx.setDurationMonths(1);
-////        tx.setPaymentMethod(request.get);
-//        if(request.getPlan().equals("PRO")){
-//            tx.setPlanName("PRO");
-//        }
-//        else{
-//            tx.setPlanName("Premium");
-//        }
-//        LocalDateTime now =
-//                LocalDateTime.now();
-//
-//        LocalDateTime expiry;
-//
-//        if(user.getPlanExpiryDate()!=null &&
-//                user.getPlanExpiryDate()
-//                        .isAfter(now)){
-//
-//            expiry =
-//                    user.getPlanExpiryDate()
-//                            .plusDays(30);
-//
-//        }else{
-//
-//            expiry =
-//                    now.plusDays(30);
-//        }
-//        tx.setSubscriptionStartDate(now);
-//        tx.setSubscriptionEndDate(expiry);
-//        tx.setPlanPurchased(
-//                request.getPlan());
-//
-//        tx.setAmount(
-//                request.getPlan()
-//                        .equals("PRO")
-//                        ? 99L
-//                        : 199L);
-//
-//        tx.setCurrency("INR");
-//
-//        tx.setTransactionStatus("SUCCESS");
-//
-//        tx.setTransactionType("SUBSCRIPTION");
-//
-//        tx.setTransactionDate(
-//                LocalDateTime.now());
-//
-//
-//        transactionRepo.save(tx);
-//    }
+
 
 private void saveTransaction(
         User user,
@@ -1511,7 +1258,7 @@ private void saveTransaction(
     public ResponseEntity<?> getPlan(
             @RequestBody SessionIDUser sessionIDUser
     ) throws Exception {
-//       EmailInputValidator.validateEmail(email);
+
         boolean flag=currentSessionService.verifySession(sessionIDUser.getEmail(),sessionIDUser.getSessionID());
         if(!flag){
             throw new Exception("Invalid session");
@@ -1534,7 +1281,7 @@ private void saveTransaction(
     public ResponseEntity<?> sendOtp(
             @RequestBody OtpRequest request
     ) throws Exception {
-        // EmailInputValidator.validateEmail(request.getEmail());
+
         boolean flag = currentSessionService.verifySession(request.getEmail(), request.getSessionId());
         boolean success = false;
         if (flag == true) {
@@ -1559,7 +1306,7 @@ private void saveTransaction(
     public ResponseEntity<?> verifyOtp(
             @RequestBody OtpRequest request
     ) {
-//        EmailInputValidator.validateEmail(request.getEmail());
+
         boolean success =
                 otpService.verifyOtp(
                         request.getEmail(),
@@ -1622,7 +1369,7 @@ private void saveTransaction(
             @RequestBody
             DeleteAccountRequest request
     ) throws Exception {
-//        EmailInputValidator.validateEmail(request.getEmail());
+
         boolean flag = currentSessionService.verifySession(request.getEmail(), request.getSessionID());
 
         String email = request.getEmail();
@@ -1637,7 +1384,7 @@ private void saveTransaction(
 
 
         if (deleted) {
-//            deletedAccountService.logDeletedUser(request);
+
             return ResponseEntity.ok(
                     "Account Deleted Successfully"
             );

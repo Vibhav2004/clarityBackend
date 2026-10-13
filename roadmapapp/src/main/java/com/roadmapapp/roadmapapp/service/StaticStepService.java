@@ -50,49 +50,7 @@ public class StaticStepService {
                 .toList();
     }
 
-//    public String getRoadMap(
-//            String category,
-//            String name,
-//            String difficulty) {
-//
-//        StaticSteps step = staticStepRepo
-//                .findByNameIgnoreCase(name)
-//                .orElseThrow(() ->
-//                        new RuntimeException("Roadmap not found: " + name));
-//
-//        return step.getStepJSONData();
-//    }
-//public String getRoadMap(
-//        String email,
-//        String category,
-//        String name,
-//        String difficulty) {
-//
-//    User user = (User) userRepo.findByEmail(email)
-//            .orElseThrow(() ->
-//                    new RuntimeException("User not found"));
-//
-//    // Check roadmap limit
-//    if (user.getRoadmaps() >= 3) {
-//        return "ROADMAP_LIMIT_EXCEEDED";
-//    }
-//
-//    // Increment count
-//    user.setRoadmaps(
-//            user.getRoadmaps() + 1
-//    );
-//
-//    userRepo.save(user);
-//
-//    StaticSteps step = staticStepRepo
-//            .findByNameIgnoreCase(name)
-//            .orElseThrow(() ->
-//                    new RuntimeException(
-//                            "Roadmap not found: " + name
-//                    ));
-//
-//    return step.getStepJSONData();
-//}
+
 
 
 

@@ -14,7 +14,7 @@ public class PaymentVerificationRequest {
 
     private String email;
 
-//   private String plan;
+
 
     private String sessionID;
 }
